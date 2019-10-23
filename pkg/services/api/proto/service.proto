@@ -1,0 +1,30 @@
+syntax = "proto3";
+package gen;
+import "google/protobuf/timestamp.proto";
+import "event.proto";
+
+message Response {
+    string message = 1;
+}
+
+message UpdateRequest {
+    string ID = 2;
+    Event event = 3;
+}
+
+message DeleteRequest {
+    string ID = 4;
+}
+
+service API {
+    rpc EventCreate(Event) returns (Response) {}
+    rpc EventUpdate(UpdateRequest) returns (Response) {}
+    rpc EventDelete(DeleteRequest) returns (Response) {}
+    rpc EventDayList(google.protobuf.Timestamp) returns (Events) {}
+    rpc EventWeekList(google.protobuf.Timestamp) returns (Events) {}
+    rpc EventMonthList(google.protobuf.Timestamp) returns (Events) {}
+}
+
+
+
+

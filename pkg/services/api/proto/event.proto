@@ -1,0 +1,18 @@
+syntax = "proto3";
+package gen;
+
+import "google/protobuf/timestamp.proto";
+
+message Events {
+    repeated Event events = 1;
+}
+
+message Event {
+    string UUID = 1;
+    string Summary = 2;
+    string Description = 3;
+    string User = 4;
+    google.protobuf.Timestamp StartDate = 5;
+    google.protobuf.Timestamp EndDate = 6;
+    google.protobuf.Timestamp NotifyTime = 7;
+}

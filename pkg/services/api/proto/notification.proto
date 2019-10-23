@@ -1,0 +1,9 @@
+syntax = "proto3";
+package gen;
+import "google/protobuf/timestamp.proto";
+
+message Notification {
+    string Summary = 1;
+    google.protobuf.Timestamp Date = 2;
+    string User = 3;
+}
