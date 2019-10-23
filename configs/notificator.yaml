@@ -1,0 +1,15 @@
+Notificator:
+  Port: 8082
+  Logger:
+    level: info
+    encoding: console
+    outputPaths:
+      - stdout
+    errorOutputPaths:
+      - stderr
+  Rabbit:
+    user: user
+    password: 123456
+    host: rabbit
+    port: 5672
+    vhost: my_vhost

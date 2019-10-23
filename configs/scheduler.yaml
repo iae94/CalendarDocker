@@ -1,0 +1,22 @@
+Scheduler:
+  Cleaner:
+    cleanDelay: 1 # Интервал очистки старых событий в днях
+  Port: 8081
+  Logger:
+    level: info
+    encoding: console
+    outputPaths:
+      - stdout
+    errorOutputPaths:
+      - stderr
+  DB:
+    user: scheduler_user
+    password: 123456
+    dbname: Calendar
+    host: psql
+  Rabbit:
+    user: user
+    password: 123456
+    host: rabbit
+    port: 5672
+    vhost: my_vhost
