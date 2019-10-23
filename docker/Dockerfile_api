@@ -1,0 +1,16 @@
+FROM golang:alpine as builder
+
+RUN apk update && apk upgrade && apk add --no-cache bash git openssh
+
+COPY /calendar /go/src/calendar
+WORKDIR /go/src/calendar/cmd/api/server/
+
+ENV GO111MODULE=on
+RUN go mod download
+RUN go build -v .
+FROM alpine
+RUN adduser -S -h /app api_user
+COPY --from=builder /go/src/calendar /app/
+WORKDIR /app/cmd/api/server
+USER api_user
+CMD ["./server"]

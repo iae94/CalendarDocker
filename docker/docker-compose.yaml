@@ -1,0 +1,50 @@
+version: "3"
+services:
+
+  api:
+    image: iae94/calendar_api
+    container_name: "calendar_api"
+    ports:
+      - "50051:50051"
+    depends_on:
+      - psql
+  notificator:
+    image: iae94/calendar_notificator
+    container_name: "calendar_notificator"
+    depends_on:
+      - rabbit
+      - psql
+  scheduler:
+    image: iae94/calendar_scheduler
+    container_name: "calendar_scheduler"
+    depends_on:
+      - rabbit
+      - psql
+  psql:
+    image: postgres:11-alpine
+    container_name: "postgres-calendar"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=Calendar
+    volumes:
+      - ./api_user.sql:/docker-entrypoint-initdb.d/1-init.sql
+      - ./scheduler_user.sql:/docker-entrypoint-initdb.d/2-init.sql
+      - ./table.sql:/docker-entrypoint-initdb.d/3-init.sql
+      - /root/pgdata:/var/lib/postgresql/data:Z
+    depends_on:
+      - rabbit
+  rabbit:
+    image: rabbitmq:3-management-alpine
+    working_dir: /app
+    hostname: rabbit-calendar
+    container_name: 'rabbit-calendar'
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: 123456
+      RABBITMQ_DEFAULT_VHOST: my_vhost
+volumes:
+  my_data:
